@@ -176,9 +176,15 @@ func (e *CloudWatchExecutor) getAwsConfig(dsInfo *DatasourceInfo) (*aws.Config, 
 		return nil, err
 	}
 
+	client, err := e.DataSource.GetHttpClient()
+	if err != nil {
+		return nil, err
+	}
+
 	cfg := &aws.Config{
 		Region:      aws.String(dsInfo.Region),
 		Credentials: creds,
+		HTTPClient:  client,
 	}
 	return cfg, nil
 }
